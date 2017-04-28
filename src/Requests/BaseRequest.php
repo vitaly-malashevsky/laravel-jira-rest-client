@@ -10,23 +10,44 @@ use Atlassian\JiraRest\Exceptions\JiraRequestException;
 use Atlassian\JiraRest\Exceptions\JiraUnauthorizedException;
 use Atlassian\JiraRest\Requests\Auth\Session;
 
+/**
+ * @method mixed get()
+ */
 abstract class BaseRequest
 {
     /**
-     * @var Client
+     * @var \GuzzleHttp\ClientInterface
      */
     protected $client = null;
 
+    /**
+     * @var array
+     *
+     */
     protected $availableMethods = [];
 
+    /**
+     * @var array
+     */
     protected $options = [];
 
+    /**
+     * @var \Psr\Http\Message\RequestInterface
+     */
     protected $requestResponse = null;
 
+    /**
+     * @var mixed
+     */
+    protected $response = null;
+
+    /**
+     * @var bool
+     */
     protected $skipAuthentication = false;
 
     /**
-     * @return Client
+     * @return \GuzzleHttp\ClientInterface
      */
     public function getClient()
     {
@@ -125,6 +146,23 @@ abstract class BaseRequest
         ];
     }
 
+    /**
+     * @param string $response
+     *
+     * @return \stdClass
+     */
+    public function handleResponse($response) {
+        $this->response = json_decode($body);
+
+        return $this->response;
+    }
+
+    /**
+     * @param string $method
+     * @param array $options
+     *
+     * @return mixed
+     */
     protected function handle($method, $options = [])
     {
         if (method_exists($this, 'beforeHandle')) {
@@ -138,24 +176,30 @@ abstract class BaseRequest
 
         $this->execute($method, $options);
 
-        if (method_exists($this, 'handleResponse')) {
-            return $this->handleResponse($this->requestResponse->getBody()->getContents(), $method);
-        }
+        $body = $this->requestResponse->getBody()->getContents();
 
-        return json_decode($this->requestResponse->getBody()->getContents());
+        return $this->handleResponse($body, $method);
     }
 
+    /**
+     * @param string $method
+     * @param array $options
+     *
+     * @throws \Atlassian\JiraRest\Exceptions\JiraClientException
+     */
     protected function execute($method, $options)
     {
         $client = $this->getClient();
         try {
             if ($method === 'get') {
                 $options = [
-                    'query' => $options
+                    'query' => $options,
+                    'debug' => false,
                 ];
             } else {
                 $options = [
-                    'json' => $options
+                    'json' => $options,
+                    'debug' => false,
                 ];
             }
 
@@ -174,7 +218,7 @@ abstract class BaseRequest
     /**
      * Try to parse the Json error from
      *
-     * @param $message
+     * @param string $message
      *
      * @return string
      */
@@ -196,6 +240,13 @@ abstract class BaseRequest
         return $message;
     }
 
+    /**
+     * @param string $method
+     * @param array $arguments
+     *
+     * @return mixed
+     * @throws \Atlassian\JiraRest\Exceptions\JiraRequestException
+     */
     public function __call($method, $arguments)
     {
         $method = strtolower($method);
@@ -207,12 +258,12 @@ abstract class BaseRequest
     }
 
     /**
-     * @param $method
-     * @param $options
+     * @param string $method
+     * @param array $options
      *
      * @return array
      */
-    protected function FilterAcceptedOptions($method, $options)
+    protected function filterAcceptedOptions($method, $options)
     {
         return collect($options)->mapWithKeys(function ($value, $option) {
             // Just in case we want to use lowe case :)

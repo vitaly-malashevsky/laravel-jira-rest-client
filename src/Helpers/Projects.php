@@ -6,6 +6,9 @@ use Atlassian\JiraRest\Requests\Project\ProjectRequest;
 
 class Projects
 {
+    /**
+     * @return \Atlassian\JiraRest\Models\Project\Project[]
+     */
     public function all()
     {
         $request = new ProjectRequest();
@@ -13,6 +16,11 @@ class Projects
         return $request->get();
     }
 
+    /**
+     * @param string $project
+     *
+     * @return \Atlassian\JiraRest\Models\Project\Project
+     */
     public function get($project)
     {
         $request = new ProjectRequest($project);

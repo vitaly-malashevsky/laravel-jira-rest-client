@@ -380,7 +380,7 @@ class Builder extends \Illuminate\Database\Query\Builder
 
         $this->columns = $original;
 
-        return collect(collect(\Jira::issues()->search($this->toJql(), true))->get('issues'));
+        return collect(\Jira::issues()->search($this->toJql(), [], true))->get('issues');
     }
 
     /**

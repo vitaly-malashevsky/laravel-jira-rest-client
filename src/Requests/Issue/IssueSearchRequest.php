@@ -4,21 +4,29 @@ namespace Atlassian\JiraRest\Requests\Issue;
 
 use Atlassian\JiraRest\Models\Issue\Issue;
 use Atlassian\JiraRest\Models\Issue\IssueList;
+use Atlassian\JiraRest\Traits\PagedRequestTrait;
 
-class IssueRequest extends IssueBaseRequest
+/**
+ * @method mixed|\Atlassian\JiraRest\Models\Issue\Issue|\Atlassian\JiraRest\Models\Issue\IssueList get()
+ */
+class IssueSearchRequest extends IssueBaseRequest
 {
+    use PagedRequestTrait;
 
     protected $issue = null;
 
+    /**
+     * @var array
+     */
     protected $options = [
         'get' => [
             'jql',
-            'start_at',
-            'max_results',
-            'validate_query',
+            'startAt',
+            'maxResults',
+            'validateQuery',
             'fields',
-            'expand'
-        ]
+            'expand',
+        ],
     ];
 
     /**
@@ -42,19 +50,24 @@ class IssueRequest extends IssueBaseRequest
         return 'search';
     }
 
+    /**
+     * @param string $response
+     *
+     * @return mixed
+     */
     public function handleResponse($response)
     {
-        $response = json_decode($response);
+        $this->response = json_decode($response);
 
         if ($this->raw) {
-            return $response;
+            return $this->response;
         }
 
         if ($this->issue === null) {
-            return IssueList::fromJira($response)->issues;
+            return new IssueList($this->response);
         }
 
-        return Issue::fromJira($response);
+        return Issue::fromJira($this->response);
     }
 
 }

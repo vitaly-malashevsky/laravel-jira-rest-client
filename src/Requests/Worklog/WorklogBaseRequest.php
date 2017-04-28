@@ -1,10 +1,10 @@
 <?php
 
-namespace Atlassian\JiraRest\Requests\Issue;
+namespace Atlassian\JiraRest\Requests\Worklog;
 
 use Atlassian\JiraRest\Requests\BaseRequest;
 
-abstract class IssueBaseRequest extends BaseRequest
+abstract class WorklogBaseRequest extends BaseRequest
 {
 
     /**
@@ -14,6 +14,6 @@ abstract class IssueBaseRequest extends BaseRequest
      */
     public function getResource()
     {
-        return 'issue';
+        return 'worklog';
     }
 }

@@ -5,6 +5,11 @@ namespace Atlassian\JiraRest\Requests\Dashboard;
 use Atlassian\JiraRest\Models\Dashboard\DashboardList;
 use Atlassian\JiraRest\Models\Dashboard\Dashboard as DashboardResponse;
 
+/**
+ * Class Dashboard.
+ *
+ * @method \Atlassian\JiraRest\Models\Dashboard\DashboardList|\Atlassian\JiraRest\Models\Dashboard\Dashboard get()
+ */
 class Dashboard extends DashboardBaseRequest
 {
     protected $dashboardId = null;
@@ -29,8 +34,8 @@ class Dashboard extends DashboardBaseRequest
 
     public function getResource()
     {
-        if (! is_null($id = $this->dashboardId)) {
-            return parent::getResource() . '/' . $id;
+        if (! is_null($this->dashboardId)) {
+            return parent::getResource() . '/' . $this->dashboardId;
         }
 
         return parent::getResource();
@@ -38,12 +43,13 @@ class Dashboard extends DashboardBaseRequest
 
     public function handleResponse($response)
     {
-        $response = json_decode($response);
+        $this->response = json_decode($response);
 
         if ($this->dashboardId === null) {
-            return new DashboardList($response);
+            return new DashboardList($this->response);
         }
 
-        return new DashboardResponse($response);
+        return new DashboardResponse($this->response);
     }
+
 }

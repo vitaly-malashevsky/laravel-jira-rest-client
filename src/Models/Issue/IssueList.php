@@ -2,12 +2,19 @@
 
 namespace Atlassian\JiraRest\Models\Issue;
 
-use Atlassian\JiraRest\Models\JiraEloquentModel;
+use Atlassian\JiraRest\Models\JiraModelList;
 
-class IssueList extends JiraEloquentModel
+/**
+ * Class IssueList.
+ *
+ * @property \Illuminate\Support\Collection $issues
+ */
+class IssueList extends JiraModelList
 {
 
-    public function setIssuesAttribute($issues)
+    protected $attribute = 'issues';
+
+    public function setIssuesAttribute(array $issues)
     {
         $collection = collect();
         foreach ($issues as $issue) {
@@ -16,4 +23,5 @@ class IssueList extends JiraEloquentModel
 
         $this->attributes['issues'] = $collection;
     }
+
 }

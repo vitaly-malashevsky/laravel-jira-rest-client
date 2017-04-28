@@ -1,16 +1,10 @@
 <?php
 
-namespace Atlassian\JiraRest\Models\Project;
+namespace Atlassian\JiraRest\Models\User;
 
-use Atlassian\JiraRest\Models\Issue\Issue;
 use Atlassian\JiraRest\Models\JiraEloquentModel;
 
-/**
- * Class Project.
- *
- * @property string $name
- */
-class Project extends JiraEloquentModel
+class User extends JiraEloquentModel
 {
 
     /**
@@ -21,18 +15,19 @@ class Project extends JiraEloquentModel
     protected $primaryKey = 'key';
 
     protected $fillable = [
-        'id',
         'key',
+        'name',
+        'projectTypeKey',
+        'projectTemplateKey',
         'description',
         'lead',
-        'components',
-        'issueTypes',
+        'url',
         'assigneeType',
-        'versions',
-        'name',
-        'roles',
-        'avatarUrls',
-        'projectTypeKey',
+        'avatarId',
+        'issueSecurityScheme',
+        'permissionScheme',
+        'notificationScheme',
+        'categoryId',
     ];
 
     public function issues()

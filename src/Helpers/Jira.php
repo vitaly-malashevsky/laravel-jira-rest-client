@@ -14,4 +14,9 @@ class Jira
     {
         return new Issues();
     }
+
+    public function worklogs()
+    {
+        return new Worklogs();
+    }
 }

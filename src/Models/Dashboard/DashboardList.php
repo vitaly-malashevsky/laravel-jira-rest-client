@@ -2,12 +2,18 @@
 
 namespace Atlassian\JiraRest\Models\Dashboard;
 
-use Atlassian\JiraRest\Models\JiraModel;
+use Atlassian\JiraRest\Models\JiraModelList;
 
-class DashboardList extends JiraModel
+/**
+ * Class DashboardList.
+ *
+ * @property \Illuminate\Support\Collection $dashboards
+ */
+class DashboardList extends JiraModelList
 {
+    protected $attribute = 'dashboards';
 
-    public function setDashboardsAttribute($dashboards)
+    public function setDashboardsAttribute(array $dashboards)
     {
         $collection = collect();
         foreach ($dashboards as $dashboard) {
@@ -15,4 +21,5 @@ class DashboardList extends JiraModel
         }
         $this->attributes['dashboards'] = $collection;
     }
+
 }

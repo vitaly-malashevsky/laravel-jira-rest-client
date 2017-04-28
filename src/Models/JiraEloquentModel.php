@@ -18,6 +18,11 @@ abstract class JiraEloquentModel extends Model
      */
     public $incrementing = false;
 
+    /**
+     * @param \stdClass $response
+     *
+     * @return static
+     */
     public static function fromJira($response)
     {
         $model = new static;
@@ -26,9 +31,7 @@ abstract class JiraEloquentModel extends Model
             $model->{$property} = $value;
         }
 
-        $model->syncOriginal();
-
-        return $model;
+        return $model->syncOriginal();
     }
 
     /**
@@ -108,4 +111,5 @@ abstract class JiraEloquentModel extends Model
 
         return $model;
     }
+
 }
