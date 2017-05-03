@@ -2,10 +2,7 @@
 
 namespace Atlassian\JiraRest\Helpers;
 
-use Atlassian\JiraRest\Models\Issue\Issue;
-use Atlassian\JiraRest\Models\Issue\IssueList;
-use Atlassian\JiraRest\Requests\Issue\IssueBaseRequest;
-use Atlassian\JiraRest\Requests\Issue\IssuePager;
+use Atlassian\JiraRest\Requests\Issue\IssueGetRequest;
 use Atlassian\JiraRest\Requests\Issue\IssueSearchRequest;
 use Atlassian\JiraRest\Requests\Issue\IssueWorklogRequest;
 
@@ -22,13 +19,14 @@ class Issues
     }
 
     /**
-     * @param $issue
+     * Returns a full representation of the issue for the given issue key.
      *
+     * @param string $issue
      * @return \Atlassian\JiraRest\Models\Issue\Issue
      */
     public function get($issue)
     {
-        $request = new IssueSearchRequest($issue);
+        $request = new IssueGetRequest($issue);
 
         return $request->get();
     }
@@ -37,31 +35,29 @@ class Issues
      * Searches for issues using JQL.
      *
      * @param string $jql
-     * @param bool $raw
-     * @param array $data
-     *
+     * @param array $params [optional]
+     * @param bool $raw [optional]
      * @return \Atlassian\JiraRest\Models\Issue\Issue[]
      */
-    public function search($jql, array $data = [], $raw = false)
+    public function search($jql, array $params = [], $raw = false)
     {
-        $request = new IssueSearchRequest(null, $raw);
+        $request = new IssueSearchRequest($raw);
 
-        return $request->paged()->get(array_merge([
+        return $request->paged()->get([
             'jql' => $jql
-        ], $data));
+        ] + $params);
     }
 
     /**
      * Get issue worklog.
      *
-     * @param string $issueIdOrKey
-     * @param string $worklogId
-     *
-     * @return \Atlassian\JiraRest\Models\Worklog\Worklog[]
+     * @param string $issue
+     * @param string $worklogId [optional]
+     * @return \Atlassian\JiraRest\Models\Worklog\WorklogList
      */
-    public function worklog($issueIdOrKey, $worklogId = null)
+    public function worklog($issue, $worklogId = null)
     {
-        $request = new IssueWorklogRequest($issueIdOrKey, $worklogId);
+        $request = new IssueWorklogRequest($issue, $worklogId);
 
         return $request->get();
     }

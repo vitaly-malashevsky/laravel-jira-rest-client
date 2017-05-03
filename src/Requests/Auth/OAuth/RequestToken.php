@@ -22,7 +22,7 @@ class RequestToken extends BaseRequest
     }
 
     /**
-     * Get the Api to call agains
+     * Get the Api to call against.
      *
      * @return string
      */
@@ -52,7 +52,7 @@ class RequestToken extends BaseRequest
         return $options;
     }
 
-    public function handleResponse($response)
+    public function handleResponse($response, $method)
     {
         $token = [];
         parse_str($response, $token);

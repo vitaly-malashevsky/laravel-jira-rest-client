@@ -11,7 +11,7 @@ use Atlassian\JiraRest\Exceptions\JiraUnauthorizedException;
 use Atlassian\JiraRest\Requests\Auth\Session;
 
 /**
- * @method mixed get()
+ * @method mixed get(array $params = [])
  */
 abstract class BaseRequest
 {
@@ -117,7 +117,7 @@ abstract class BaseRequest
     }
 
     /**
-     * Get the Api to call agains
+     * Get the Api to call against.
      *
      * @return string
      */
@@ -148,11 +148,11 @@ abstract class BaseRequest
 
     /**
      * @param string $response
-     *
+     * @param string $method
      * @return \stdClass
      */
-    public function handleResponse($response) {
-        $this->response = json_decode($body);
+    public function handleResponse($response, $method) {
+        $this->response = json_decode($response);
 
         return $this->response;
     }
@@ -160,7 +160,6 @@ abstract class BaseRequest
     /**
      * @param string $method
      * @param array $options
-     *
      * @return mixed
      */
     protected function handle($method, $options = [])
@@ -184,7 +183,6 @@ abstract class BaseRequest
     /**
      * @param string $method
      * @param array $options
-     *
      * @throws \Atlassian\JiraRest\Exceptions\JiraClientException
      */
     protected function execute($method, $options)
@@ -219,7 +217,6 @@ abstract class BaseRequest
      * Try to parse the Json error from
      *
      * @param string $message
-     *
      * @return string
      */
     protected function getErrorMessages($message)
@@ -243,7 +240,6 @@ abstract class BaseRequest
     /**
      * @param string $method
      * @param array $arguments
-     *
      * @return mixed
      * @throws \Atlassian\JiraRest\Exceptions\JiraRequestException
      */
@@ -260,7 +256,6 @@ abstract class BaseRequest
     /**
      * @param string $method
      * @param array $options
-     *
      * @return array
      */
     protected function filterAcceptedOptions($method, $options)

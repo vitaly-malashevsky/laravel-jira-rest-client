@@ -2,6 +2,7 @@
 
 namespace Atlassian\JiraRest\Traits;
 
+use Atlassian\JiraRest\Requests\BaseRequest;
 use Atlassian\JiraRest\Requests\JiraRequestScanner;
 
 trait PagedRequestTrait
@@ -19,7 +20,11 @@ trait PagedRequestTrait
      * @return \Atlassian\JiraRest\Requests\JiraRequestScanner
      */
     public function paged() {
-        return new JiraRequestScanner($this, $this->pageOptions);
+        if ($this instanceof BaseRequest) {
+            return new JiraRequestScanner($this, $this->pageOptions);
+        }
+
+        throw new \RuntimeException('Unsupported type of request instance provided.');
     }
 
 }

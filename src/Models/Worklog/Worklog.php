@@ -2,7 +2,6 @@
 
 namespace Atlassian\JiraRest\Models\Worklog;
 
-use Atlassian\JiraRest\Models\Issue\Issue;
 use Atlassian\JiraRest\Models\JiraEloquentModel;
 
 class Worklog extends JiraEloquentModel
@@ -27,15 +26,5 @@ class Worklog extends JiraEloquentModel
         'timeSpent',
         'timeSpentSeconds',
     ];
-
-//    public function setAuthorAttribute($author)
-//    {
-////        $this->attributes['author'] = new Author($author);
-//    }
-//
-//    public function setUpdateAuthorAttribute($updateAuthor)
-//    {
-////        $this->attributes['updateAuthor'] = new Author($updateAuthor);
-//    }
 
 }

@@ -4,6 +4,13 @@ namespace Atlassian\JiraRest\Requests\Auth;
 
 use Atlassian\JiraRest\Requests\BaseRequest;
 
+/**
+ * Class Session.
+ *
+ * @method mixed get(array $params = [])
+ * @method mixed post(array $params = [])
+ * @method mixed delete(array $params = [])
+ */
 class Session extends BaseRequest
 {
 
@@ -56,7 +63,7 @@ class Session extends BaseRequest
                 'value' => $response->session->value
             ]);
 
-            \Cache::put('jira_cookie', $cookie, 3600, request()->getHost(), '/');
+            \Cache::put('jira_cookie', $cookie, 3600);
 
             return $cookie;
         } elseif ($method === 'delete') {

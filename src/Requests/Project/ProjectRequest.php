@@ -8,7 +8,7 @@ use Atlassian\JiraRest\Models\Project\ProjectList;
 /**
  * Class ProjectRequest.
  *
- * @method mixed get()
+ * @method Project|ProjectList get(array $params = [])
  */
 class ProjectRequest extends ProjectBaseRequest
 {
@@ -52,10 +52,10 @@ class ProjectRequest extends ProjectBaseRequest
 
     /**
      * @param string $response
-     *
-     * @return \Atlassian\JiraRest\Models\Project\ProjectList|\Atlassian\JiraRest\Models\Project\Project
+     * @param string $method
+     * @return \Atlassian\JiraRest\Models\Project\Project|\Atlassian\JiraRest\Models\Project\ProjectList
      */
-    public function handleResponse($response)
+    public function handleResponse($response, $method)
     {
         $this->response = json_decode($response);
 

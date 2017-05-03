@@ -31,7 +31,7 @@ class AccessToken extends BaseRequest
     }
 
     /**
-     * Get the Api to call agains
+     * Get the Api to call against.
      *
      * @return string
      */
@@ -62,7 +62,7 @@ class AccessToken extends BaseRequest
         return $options;
     }
 
-    public function handleResponse($response)
+    public function handleResponse($response, $method)
     {
 
         $token = [];

@@ -8,7 +8,7 @@ use Atlassian\JiraRest\Models\Dashboard\Dashboard as DashboardResponse;
 /**
  * Class Dashboard.
  *
- * @method \Atlassian\JiraRest\Models\Dashboard\DashboardList|\Atlassian\JiraRest\Models\Dashboard\Dashboard get()
+ * @method DashboardResponse|DashboardList get(array $params = [])
  */
 class Dashboard extends DashboardBaseRequest
 {
@@ -41,7 +41,7 @@ class Dashboard extends DashboardBaseRequest
         return parent::getResource();
     }
 
-    public function handleResponse($response)
+    public function handleResponse($response, $method)
     {
         $this->response = json_decode($response);
 

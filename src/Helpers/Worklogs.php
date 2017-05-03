@@ -2,6 +2,7 @@
 
 namespace Atlassian\JiraRest\Helpers;
 
+use Atlassian\JiraRest\Requests\Worklog\WorklogListRequest;
 use Atlassian\JiraRest\Requests\Worklog\WorklogRequest;
 
 class Worklogs
@@ -10,7 +11,6 @@ class Worklogs
      * Get ids of worklogs deleted since.
      *
      * @param int $since
-     *
      * @return mixed
      */
     public function deleted($since = 0)
@@ -26,23 +26,22 @@ class Worklogs
      * Get worklogs for ids.
      *
      * @param array $ids
-     *
+     * @param array $params [optional]
      * @return mixed
      */
-    public function fetch(array $ids = [])
+    public function fetch(array $ids = [], array $params = [])
     {
-        $request = new WorklogRequest('list');
+        $request = new WorklogListRequest();
 
-        return $request->get([
+        return $request->post([
           'ids' => $ids,
-        ]);
+        ] + $params);
     }
 
     /**
      * Get ids of worklogs modified since.
      *
      * @param int $since
-     *
      * @return mixed
      */
     public function updated($since = 0)

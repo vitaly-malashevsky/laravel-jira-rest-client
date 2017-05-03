@@ -20,12 +20,17 @@ abstract class JiraModelList extends AbstractLazyCollection
      * JiraModelList constructor.
      *
      * @param mixed $response
+     * @param string $field [optional]
      */
-    public function __construct($response)
+    public function __construct($response, $field = null)
     {
         if (is_array($response)) {
             $this->jiraModelConstruct((object) [$this->attribute => $response]);
         } else {
+            if (!is_null($field)) {
+                $response->{$this->attribute} = $response->{$field};
+                unset($response->{$field});
+            }
             $this->jiraModelConstruct($response);
         }
     }

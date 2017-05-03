@@ -23,7 +23,7 @@ class FacadeServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(JiraFacade::class, function ($app) {
+        $this->app->singleton(JiraFacade::class, function () {
             return new Jira();
         });
 

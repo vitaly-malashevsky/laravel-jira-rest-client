@@ -16,28 +16,16 @@ class User extends JiraEloquentModel
 
     protected $fillable = [
         'key',
+        'accountId',
         'name',
-        'projectTypeKey',
-        'projectTemplateKey',
-        'description',
-        'lead',
-        'url',
-        'assigneeType',
-        'avatarId',
-        'issueSecurityScheme',
-        'permissionScheme',
-        'notificationScheme',
-        'categoryId',
+        'emailAddress',
+        'avatarUrls',
+        'displayName',
+        'active',
+        'timeZone',
+        'locale',
+        'groups',
+        'applicationRoles',
     ];
-
-    public function issues()
-    {
-        return $this->hasMany(Issue::class, 'project');
-    }
-
-    public function avatar()
-    {
-        
-    }
 
 }

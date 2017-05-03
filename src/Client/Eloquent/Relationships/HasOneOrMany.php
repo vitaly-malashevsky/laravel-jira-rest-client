@@ -36,7 +36,6 @@ abstract class HasOneOrMany extends Relation
      * @param  \Illuminate\Database\Eloquent\Model  $parent
      * @param  string  $foreignKey
      * @param  string  $localKey
-     * @return void
      */
     public function __construct(Builder $query, Model $parent, $foreignKey, $localKey)
     {
@@ -231,7 +230,7 @@ abstract class HasOneOrMany extends Relation
      * Attach a model instance to the parent model.
      *
      * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Database\Eloquent\Model|false
      */
     public function save(Model $model)
     {

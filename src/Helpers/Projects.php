@@ -7,7 +7,7 @@ use Atlassian\JiraRest\Requests\Project\ProjectRequest;
 class Projects
 {
     /**
-     * @return \Atlassian\JiraRest\Models\Project\Project[]
+     * @return \Atlassian\JiraRest\Models\Project\ProjectList
      */
     public function all()
     {
@@ -18,7 +18,6 @@ class Projects
 
     /**
      * @param string $project
-     *
      * @return \Atlassian\JiraRest\Models\Project\Project
      */
     public function get($project)

@@ -7,7 +7,6 @@ use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use JiraRestApi\Issue\IssueService;
 
 class Builder extends \Illuminate\Database\Query\Builder
 {
@@ -262,7 +261,7 @@ class Builder extends \Illuminate\Database\Query\Builder
      * @param  \Closure|string  $column
      * @param  string  $operator
      * @param  mixed   $value
-     * @return Builder|static
+     * @return $this
      */
     public function orWhere($column, $operator = null, $value = null)
     {
@@ -274,10 +273,11 @@ class Builder extends \Illuminate\Database\Query\Builder
      *
      * @param  \Closure $callback
      * @param  string   $boolean
-     * @return Builder|static
+     * @return $this
      */
     public function whereNested(Closure $callback, $boolean = 'and')
     {
+        /** @var Builder $query */
         $query = $this->forNestedWhere();
 
         call_user_func($callback, $query);
@@ -326,7 +326,7 @@ class Builder extends \Illuminate\Database\Query\Builder
      * Add an "or where null" clause to the query.
      *
      * @param  string  $column
-     * @return Builder|static
+     * @return $this
      */
     public function orWhereNull($column)
     {
@@ -338,7 +338,7 @@ class Builder extends \Illuminate\Database\Query\Builder
      *
      * @param  string  $column
      * @param  string  $boolean
-     * @return Builder|static
+     * @return $this
      */
     public function whereNotNull($column, $boolean = 'and')
     {
@@ -349,7 +349,7 @@ class Builder extends \Illuminate\Database\Query\Builder
      * Add an "or where not null" clause to the query.
      *
      * @param  string  $column
-     * @return Builder|static
+     * @return $this
      */
     public function orWhereNotNull($column)
     {

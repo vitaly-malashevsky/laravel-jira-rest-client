@@ -2,18 +2,16 @@
 
 namespace Atlassian\JiraRest\Requests\Issue;
 
-use Atlassian\JiraRest\Models\Issue\Issue;
 use Atlassian\JiraRest\Models\Issue\IssueList;
 use Atlassian\JiraRest\Traits\PagedRequestTrait;
 
 /**
- * @method mixed|\Atlassian\JiraRest\Models\Issue\Issue|\Atlassian\JiraRest\Models\Issue\IssueList get()
+ * @method array|IssueList get(array $params = [])
+ * @method array|IssueList post(array $params = [])
  */
 class IssueSearchRequest extends IssueBaseRequest
 {
     use PagedRequestTrait;
-
-    protected $issue = null;
 
     /**
      * @var array
@@ -34,10 +32,17 @@ class IssueSearchRequest extends IssueBaseRequest
      */
     protected $raw;
 
-    public function __construct($issue = null, $raw = false)
+    /**
+     * IssueSearchRequest constructor.
+     *
+     * @param bool $raw
+     */
+    public function __construct($raw = false)
     {
-        $this->issue = $issue;
+        parent::__construct(null);
+
         $this->raw = $raw;
+        $this->options['post'] =& $this->options['get'];
     }
 
     /**
@@ -51,11 +56,22 @@ class IssueSearchRequest extends IssueBaseRequest
     }
 
     /**
-     * @param string $response
-     *
-     * @return mixed
+     * {@inheritdoc}
      */
-    public function handleResponse($response)
+    public function getAvailableMethods()
+    {
+        return [
+            'get',
+            'post',
+        ];
+    }
+
+    /**
+     * @param string $response
+     * @param string $method
+     * @return array|\Atlassian\JiraRest\Models\Issue\IssueList
+     */
+    public function handleResponse($response, $method)
     {
         $this->response = json_decode($response);
 
@@ -63,11 +79,7 @@ class IssueSearchRequest extends IssueBaseRequest
             return $this->response;
         }
 
-        if ($this->issue === null) {
-            return new IssueList($this->response);
-        }
-
-        return Issue::fromJira($this->response);
+        return new IssueList($this->response);
     }
 
 }

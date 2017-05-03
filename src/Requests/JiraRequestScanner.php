@@ -2,10 +2,8 @@
 
 namespace Atlassian\JiraRest\Requests;
 
-use Atlassian\JiraRest\Requests\Issue\IssueBaseRequest;
-
 /**
- * @method mixed get()
+ * @method mixed get(array $params = [])
  */
 class JiraRequestScanner
 {
@@ -33,7 +31,8 @@ class JiraRequestScanner
     /**
      * BaseRequest constructor.
      *
-     * @param BaseRequest $request
+     * @param \Atlassian\JiraRest\Requests\BaseRequest $request
+     * @param array $pageOptions
      */
     public function __construct(BaseRequest $request, array $pageOptions)
     {
@@ -60,8 +59,6 @@ class JiraRequestScanner
             $options['startAt'] = $start_at;
             $this->pages[] = [$name, $arguments];
         } else {
-            // @todo: find better way to stop.
-            $this->totalPages = count($this->pages);
             $this->pages = [];
         }
 
@@ -91,6 +88,7 @@ class JiraRequestScanner
     public function __call($name, $arguments)
     {
         $options = &$arguments[0];
+        $options or $options = [];
         $options += $this->pageOptions;
         $this->pages = [[$name, $arguments]];
 

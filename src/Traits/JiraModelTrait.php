@@ -46,7 +46,6 @@ trait JiraModelTrait
 
     /**
      * @param \stdClass $response
-     *
      * @return static
      */
     public static function fromJira($response)

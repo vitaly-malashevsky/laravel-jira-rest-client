@@ -2,13 +2,10 @@
 
 namespace Atlassian\JiraRest\Requests\Worklog;
 
-use Atlassian\JiraRest\Models\Worklog\Worklog;
-use Atlassian\JiraRest\Models\Worklog\WorklogList;
-
 /**
  * Class WorklogRequest.
  *
- * @method array|\Atlassian\JiraRest\Models\Worklog\WorklogList get()
+ * @method mixed get(array $params = [])
  */
 class WorklogRequest extends WorklogBaseRequest
 {
@@ -17,10 +14,9 @@ class WorklogRequest extends WorklogBaseRequest
 
     protected $options = [
         'get' => [
-            'expand',
-            'ids',
             'since',
-        ]
+            'expand',
+        ],
     ];
 
     public function __construct($action)
@@ -35,16 +31,12 @@ class WorklogRequest extends WorklogBaseRequest
 
     /**
      * @param string $response
-     *
-     * @return mixed|\Atlassian\JiraRest\Models\Worklog\WorklogList
+     * @param string $method
+     * @return mixed
      */
-    public function handleResponse($response)
+    public function handleResponse($response, $method)
     {
         $this->response = json_decode($response);
-
-        if ($this->action == 'list') {
-            return new WorklogList($this->response);
-        }
 
         return $this->response;
     }

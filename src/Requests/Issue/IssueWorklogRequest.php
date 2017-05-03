@@ -6,12 +6,10 @@ use Atlassian\JiraRest\Models\Worklog\Worklog;
 use Atlassian\JiraRest\Models\Worklog\WorklogList;
 
 /**
- * @method \Atlassian\JiraRest\Models\Worklog\Worklog|\Atlassian\JiraRest\Models\Worklog\WorklogList get()
+ * @method Worklog|WorklogList get(array $params = [])
  */
 class IssueWorklogRequest extends IssueBaseRequest
 {
-
-    protected $issueIdOrKey = null;
 
     protected $worklogId = null;
 
@@ -26,7 +24,8 @@ class IssueWorklogRequest extends IssueBaseRequest
 
     public function __construct($issueIdOrKey, $worklogId = null)
     {
-        $this->issueIdOrKey = $issueIdOrKey;
+        parent::__construct($issueIdOrKey);
+
         $this->worklogId = $worklogId;
     }
 
@@ -36,18 +35,18 @@ class IssueWorklogRequest extends IssueBaseRequest
     public function getResource()
     {
         if (! is_null($id = $this->worklogId)) {
-            return parent::getResource() . '/' . $this->issueIdOrKey . '/worklog/' . $this->worklogId;
+            return parent::getResource() . '/worklog/' . $this->worklogId;
         }
 
-        return parent::getResource() . '/' . $this->issueIdOrKey . '/worklog';
+        return parent::getResource() . '/worklog';
     }
 
     /**
      * @param string $response
-     *
+     * @param string $method
      * @return \Atlassian\JiraRest\Models\Worklog\Worklog|\Atlassian\JiraRest\Models\Worklog\WorklogList
      */
-    public function handleResponse($response)
+    public function handleResponse($response, $method)
     {
         $this->response = json_decode($response);
 

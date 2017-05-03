@@ -20,7 +20,6 @@ abstract class JiraEloquentModel extends Model
 
     /**
      * @param \stdClass $response
-     *
      * @return static
      */
     public static function fromJira($response)
@@ -59,7 +58,6 @@ abstract class JiraEloquentModel extends Model
      * Create a new Eloquent query builder for the model.
      *
      * @param  \Illuminate\Database\Query\Builder  $query
-     *
      * @return Builder
      */
     public function newEloquentBuilder($query)

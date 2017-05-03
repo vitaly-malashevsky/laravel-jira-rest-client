@@ -231,7 +231,7 @@ trait HasAttributes
     public function getAttribute($key)
     {
         if (! $key) {
-            return;
+            return null;
         }
 
         // If the attribute exists in the attribute array or has a "get" mutator we will
@@ -246,10 +246,10 @@ trait HasAttributes
         // since we do not want to treat any of those methods are relationships since
         // they are all intended as helper methods and none of these are relations.
         if (method_exists(self::class, $key)) {
-            return;
+            return null;
         }
 
-        return;
+        return null;
     }
 
     /**
@@ -298,6 +298,8 @@ trait HasAttributes
         if (isset($this->attributes[$key])) {
             return $this->attributes[$key];
         }
+
+        return null;
     }
 
     /**
