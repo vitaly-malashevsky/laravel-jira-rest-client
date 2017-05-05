@@ -2,28 +2,18 @@
 
 namespace Atlassian\JiraRest\Requests\User;
 
-class UserPropertyRequest extends UserBaseRequest
+class UserPropertyRequest extends UserPropertiesRequest
 {
-    protected $key;
-
     /**
-     * An array of available options.
+     * The property key name.
      *
-     * 'username' (string) key of the user whose property is to be returned.
-     * 'userkey' (string) username of the user whose property is to be returned.
-     *
-     * @var array
+     * @var string
      */
-    protected $options = [
-        'get' => [
-            'username',
-            'key',
-        ],
-    ];
+    protected $propertyKey;
 
-    public function __construct($key)
+    public function __construct($propertyKey)
     {
-        $this->key = $key;
+        $this->propertyKey = $propertyKey;
     }
 
     /**
@@ -31,6 +21,6 @@ class UserPropertyRequest extends UserBaseRequest
      */
     public function getResource()
     {
-        return parent::getResource() . '/properties/' . $this->key . '/';
+        return parent::getResource() . '/' . $this->propertyKey;
     }
 }

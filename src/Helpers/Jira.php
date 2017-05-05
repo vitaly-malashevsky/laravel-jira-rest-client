@@ -19,6 +19,7 @@ class Jira
     {
         return new Worklogs();
     }
+
     public function users()
     {
         return new Users();

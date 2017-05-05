@@ -27,5 +27,4 @@ class User extends JiraEloquentModel
         'groups',
         'applicationRoles',
     ];
-
 }

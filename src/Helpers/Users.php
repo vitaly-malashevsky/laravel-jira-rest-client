@@ -3,8 +3,8 @@
 namespace Atlassian\JiraRest\Helpers;
 
 use Atlassian\JiraRest\Requests\User\UserPropertiesRequest;
-use Atlassian\JiraRest\Requests\User\UserRequest;
 use Atlassian\JiraRest\Requests\User\UserPropertyRequest;
+use Atlassian\JiraRest\Requests\User\UserGetRequest;
 
 class Users
 {
@@ -15,34 +15,36 @@ class Users
      * @param string $username the username.
      * @return \Atlassian\JiraRest\Models\User\User
      */
-    public function getByName($username)
+    public function get($username)
     {
-        $request = new UserRequest();
+        $request = new UserGetRequest();
 
         return $request->get(['username' => $username]);
     }
 
     /**
-     * @param string $username the username
+     * Returns the keys of all properties for the user identified by the username.
+     *
+     * @param string $username username
      * @return mixed User's properties object.
      */
     public function getUserProperties($username)
     {
         $request = new UserPropertiesRequest();
-        $response = $request->get(['username' => $username]);
-        $properties = $response->keys[0]->key;
 
-        return $this->getProperty($username, $properties);
+        return $request->get(['username' => $username]);
     }
 
     /**
+     * Returns the value of the property with a given key from the user identified by the key or by the id.
+     *
      * @param string $username
-     * @param string $key
+     * @param string $propertyKey
      * @return mixed User's properties object.
      */
-    public function getProperty($username, $key)
+    public function getProperty($username, $propertyKey)
     {
-        $request = new UserPropertyRequest($key);
+        $request = new UserPropertyRequest($propertyKey);
 
         return $request->get(['username' => $username]);
     }

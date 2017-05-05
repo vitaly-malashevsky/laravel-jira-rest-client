@@ -24,4 +24,8 @@ class WorklogList extends JiraModelList
         $this->attributes['worklogs'] = $collection;
     }
 
+
+    public function test() {
+
+}
 }

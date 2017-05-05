@@ -4,6 +4,7 @@ namespace Atlassian\JiraRest\Requests\User;
 
 class UserPropertiesRequest extends UserBaseRequest
 {
+
     /**
      * An array of available options.
      *
@@ -15,7 +16,7 @@ class UserPropertiesRequest extends UserBaseRequest
     protected $options = [
         'get' => [
             'username',
-            'userkey',
+            'userKey',
         ],
     ];
 
@@ -24,6 +25,6 @@ class UserPropertiesRequest extends UserBaseRequest
      */
     public function getResource()
     {
-        return parent::getResource().'/properties';
+        return parent::getResource() . '/properties';
     }
 }
