@@ -22,7 +22,7 @@ abstract class IssueBaseRequest extends BaseRequest
     }
 
     /**
-     * Get the resource to call
+     * Get the resource to call.
      *
      * @return string
      */
