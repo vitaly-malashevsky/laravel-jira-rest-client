@@ -24,4 +24,9 @@ class Jira
     {
         return new Users();
     }
+
+    public function roles()
+    {
+      return new Roles();
+    }
 }
